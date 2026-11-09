@@ -94,10 +94,10 @@ answer displays as a 19-line scrollable window instead of taking over the termin
 context without starting a turn. The test that shows it works:
 
 ```
-/btw 请记住这个数字：8317。只回答 OK
+/btw Remember the number 8317. Reply with just OK.
 → OK
 [f]
-我刚才用 /btw 让你记住的数字是多少？只回答数字
+What number did I ask you to remember? Reply with digits only.
 → 8317
 ```
 
