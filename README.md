@@ -113,11 +113,12 @@ so the side question really did reach the context.
 ## Install
 
 ```bash
-pi install 'D:\code\pi-btw'
+git clone https://github.com/Finn763/pi-btw.git
+pi install ./pi-btw
 ```
 
-Then `/reload` in a running session. Check with `pi list` — it should show
-`D:\code\pi-btw`.
+Then `/reload` in a running session. Check with `pi list` — the path you cloned to
+should appear there.
 
 Requires Pi 1.5+ (`@earendil-works/pi-coding-agent`).
 

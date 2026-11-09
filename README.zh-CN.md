@@ -94,10 +94,11 @@ const response = await ctx.modelRegistry.complete(
 ## 安装
 
 ```bash
-pi install 'D:\code\pi-btw'
+git clone https://github.com/Finn763/pi-btw.git
+pi install ./pi-btw
 ```
 
-然后在运行中的会话里 `/reload`。用 `pi list` 确认，应该能看到 `D:\code\pi-btw`。
+然后在运行中的会话里 `/reload`。用 `pi list` 确认，应该能看到你克隆到的那个路径。
 
 需要 Pi 1.5+（`@earendil-works/pi-coding-agent`）。
 
