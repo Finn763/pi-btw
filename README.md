@@ -47,11 +47,7 @@ Built to remove three failure modes of "just ask in the same window":
 
 ## How it runs
 
-```
-┌──────────────────┐    /btw <question>    ┌─────────────────────┐
-│  main turns      │ ────────────────────► │  side instance      │
-│  keep working    │                       │  no tools, 1 answer │
-└──────────────────┘ ◄──────────────────── └─────────────────────┘
+![pi-btw flow: the main conversation keeps running while a side instance answers without tools](docs/flow.png)
                       answer in a panel
 
 
