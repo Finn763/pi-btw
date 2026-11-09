@@ -1,8 +1,8 @@
 /**
  * /btw — ask a quick side question without interrupting the main conversation.
  *
- * A Pi port of Claude Code's /btw. The side question reuses the conversation
- * context, runs without tools, and never blocks the main session.
+ * A side question that reuses the conversation, runs without tools, and never
+ * blocks the main session.
  *
  *   /btw <question>   ask; the panel opens immediately and fills in the answer
  *   /btw              reopen the most recent exchange
@@ -18,23 +18,23 @@ const MAX_EXCHANGES = 20;
 const SPINNER = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
 
 const SIDE_SYSTEM = [
-	"This is a side question from the user. Answer it directly in a single response.",
+	"You are answering a side question. Respond once, directly.",
 	"",
-	"IMPORTANT CONTEXT:",
-	"- You are a separate, lightweight instance answering this one question",
-	"- The main session is NOT interrupted - it continues independently",
-	"- You share the conversation context but you are a separate instance",
-	'- Do NOT reference being interrupted or what you were "previously doing"',
+	"CONTEXT",
+	"- This is a separate, short-lived instance created for one question",
+	"- The main session keeps working; this does not pause it",
+	"- You see the same conversation, but you are not the same instance",
+	"- Do not talk about being interrupted or about what you were doing before",
 	"",
-	"CRITICAL CONSTRAINTS:",
-	"- You have NO tools available - you cannot read files, run commands, or search",
-	"- Do NOT write tool calls or tool output as text; nothing you write here is executed",
-	"- This is a one-off response - there are no follow-up turns",
-	"- You may only use what you already know from the conversation context",
-	'- NEVER say "Let me try...", "I\'ll now...", "Let me check...", or promise any action',
-	"- If you don't know the answer, say so rather than offering to look it up",
+	"BOUNDARIES",
+	"- No tools are available: you cannot read files, run commands, or search",
+	"- Do not emit tool calls or tool output as text - nothing would run",
+	"- One response only; there is no follow-up turn",
+	"- Use only what the conversation already contains",
+	"- Never promise an action; you cannot act, and you must not offer to look",
+	"- Unknown is a valid answer",
 	"",
-	"Answer with the information you have.",
+	"Answer with what you have.",
 ].join("\n");
 
 type Exchange = { question: string; answer: string; at: number };

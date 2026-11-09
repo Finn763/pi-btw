@@ -12,7 +12,7 @@
 
 </div>
 
-> Claude Code `/btw` 的 Pi 移植版。原版是从它发布的二进制里逆向读出来的。
+> 一个继承当前上下文、又不碰它的旁路提问。
 
 你正卡在一件长任务中间，脑子里冒出一个问题——"这个函数到底干了啥？"——然后只有三条烂路：打断 agent、开个啥都不知道的新会话、或者记住等会儿再说。
 
@@ -62,9 +62,9 @@ const response = await ctx.modelRegistry.complete(
 系统提示再补一层模型不可能误读的话：
 
 ```
-- You have NO tools available - you cannot read files, run commands, or search
-- Do NOT write tool calls or tool output as text; nothing you write here is executed
-- This is a one-off response - there are no follow-up turns
+- No tools are available: you cannot read files, run commands, or search
+- Do not emit tool calls or tool output as text - nothing would run
+- One response only; there is no follow-up turn
 ```
 
 端到端验过：面板在 2 秒内带着 `⠴ Answering…` 出现；62 行的答案显示成 19 行可滚动窗口，而不是占满整个终端。
@@ -121,17 +121,9 @@ pi install ./pi-btw
 ## pi-btw 钉住的几条
 
 - **上下文** —— 会话最近 40 条消息，加上最多 20 条历史问答。这个上限是故意的：巨大的会话不该变成巨大的旁路请求。
-- **历史** —— 只在内存里，20 条，Pi 退出即丢。跟 Claude Code 一样。
+- **历史** —— 只在内存里，20 条，Pi 退出即丢。
 - **只答一次** —— 永远没有第二轮、没有工具调用、不写会话记录。
 - **不触发回合** —— `f` 只加上下文，不让 agent 开口。
-
----
-
-## 这东西哪来的
-
-Claude Code 把 `/btw` 编进了一个 Bun 单文件二进制。这里的实现是从里面读出来的：旁路提问的系统提示是逐字的，"一次回答、没有工具"的契约一致，20 条历史上限也一致。
-
-两处不同。Pi 的 `complete()` 让"无工具"变成结构上的保证而不是防御，所以 Claude Code 里那四层兜底（`canUseTool` 拒绝、`tool_use` 改写、XML 工具调用检测）在这里不需要。另外 `f` 是把问答送进主对话，而不是分叉一条新分支——因为那才是真正有人要的。
 
 ---
 

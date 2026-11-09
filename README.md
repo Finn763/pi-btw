@@ -12,7 +12,7 @@
 
 </div>
 
-> A port of Claude Code's `/btw`, reverse-engineered from its shipped binary and rebuilt for Pi.
+> A side question that inherits the conversation and answers without touching it.
 
 You are in the middle of a long task. A question pops up — "what does this function
 actually do?" — and you have three bad options: interrupt the agent, start a new
@@ -77,9 +77,9 @@ const response = await ctx.modelRegistry.complete(
 The system prompt backs it up with words the model cannot misread:
 
 ```
-- You have NO tools available - you cannot read files, run commands, or search
-- Do NOT write tool calls or tool output as text; nothing you write here is executed
-- This is a one-off response - there are no follow-up turns
+- No tools are available: you cannot read files, run commands, or search
+- Do not emit tool calls or tool output as text - nothing would run
+- One response only; there is no follow-up turn
 ```
 
 Verified end to end: the panel opens in under 2 s with `⠴ Answering…`; a 62-line
@@ -142,23 +142,9 @@ Requires Pi 1.5+ (`@earendil-works/pi-coding-agent`).
 
 - **Context** — the last 40 messages of the session, plus up to 20 prior exchanges.
   Cap it deliberately: a huge session should not become a huge side query.
-- **History** — memory only, 20 entries, gone when Pi exits. Same as Claude Code.
+- **History** — memory only, 20 entries, gone when Pi exits.
 - **One answer** — never a second turn, never a tool call, never a transcript write.
 - **No turn trigger** — `f` adds context, it does not make the agent speak.
-
----
-
-## Where this came from
-
-Claude Code ships `/btw` compiled into a Bun single-file binary. The implementation
-here came from reading it: the side-question system prompt is verbatim, the
-"one response, no tools" contract is the same, and so is the 20-entry history cap.
-
-Two differences. Pi's `complete()` makes the no-tools guarantee structural instead of
-defensive, so the four fallback layers Claude Code carries (`canUseTool` deny, tool_use
-rewriting, XML-tool-call detection) are not needed here. And `f` sends the exchange
-into the main conversation instead of forking a new branch, because that is what
-people actually asked for.
 
 ---
 
