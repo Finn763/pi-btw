@@ -1,0 +1,28 @@
+{
+  "name": "pi-btw",
+  "version": "0.1.0",
+  "description": "Side questions in Pi: /btw answers without interrupting the main conversation",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "pi-coding-agent"
+  ],
+  "pi": {
+    "extensions": [
+      "./btw.ts"
+    ]
+  },
+  "files": [
+    "btw.ts",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
